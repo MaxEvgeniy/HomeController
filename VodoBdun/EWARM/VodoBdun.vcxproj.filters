@@ -127,10 +127,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Inc\GlobalHeader.h">
+    <ClInclude Include="..\Inc\Buzzer.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Inc\Buzzer.h">
+    <ClInclude Include="..\..\Common\GlobalHeader.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

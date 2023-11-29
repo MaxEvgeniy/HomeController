@@ -1,25 +1,19 @@
 #include "GlobalHeader.h"
 #include "main.h"
 
-extern bool AlarmActive; // Если активен- сирена воет
-extern bool AlarmActiveOLD; // Если активен- сирена воет
+extern osMessageQueueId_t SongQueueHandle;
+extern osEventFlagsId_t EventAlarmRunHandle;
+
+extern const uint8_t ALARMSONG;
 
 void AlarmDrive(void)
 {
-	if (AlarmActiveOLD != AlarmActive)
-	{
-		if (AlarmActive == true)
+	osEventFlagsWait(EventAlarmRunHandle, ALARMMODESET, osFlagsWaitAny, osWaitForever);
+	HAL_GPIO_WritePin(LightAlarm_GPIO_Port, LightAlarm_Pin, GPIO_PIN_SET); // Включить лампочку
+		if (osMessageQueueGetCount (SongQueueHandle) == 0)
 		{
-			HAL_GPIO_WritePin(LightAlarm_GPIO_Port, LightAlarm_Pin, GPIO_PIN_SET);
-			////////////////////////////////////////////////////////////////////////
-			SoundPlay(BUZZERALARM, 1, 1);
-			////////////////////////////////////////////////////////////////////////
+			osMessageQueuePut(SongQueueHandle, &ALARMSONG, 0, 0);
 		}
-		else
-		{
-			HAL_GPIO_WritePin(LightAlarm_GPIO_Port, LightAlarm_Pin, GPIO_PIN_RESET);
-		}
-		
-		AlarmActiveOLD = AlarmActive;
-	}
+	osDelay(100); // Задержка, чтобы лампочка посветилась маленько.
+	HAL_GPIO_WritePin(LightAlarm_GPIO_Port, LightAlarm_Pin, GPIO_PIN_RESET); // Выключить лампочку. На случай отмены тревоги
 }

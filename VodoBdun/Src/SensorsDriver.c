@@ -1,27 +1,35 @@
 #include "GlobalHeader.h"
 #include "stm32f1xx_hal.h"
+#include "cmsis_os2.h"
 #include "main.h"
 
-uint16_t adc = 0;
-bool ADCComplete = false;
-bool AlarmActive;
-bool AlarmActiveOLD=false; // Если активен- сирена воет
+uint16_t adc = 0; // Значение с АЦП
+uint16_t adcOLD = 0; // Старое значение с ацп для отслеживания перехода
+
+const uint16_t WaterThreshold = 3500; // Пороговое значение чувствительности датчика капель
+
 extern ADC_HandleTypeDef hadc1;
+extern osEventFlagsId_t EventAlarmRunHandle;
 
 void SensorDrive(void)
 {
-	if (ADCComplete == true)
+	if (adc != adcOLD)
 	{
-		ADCComplete = false; // Сбрасываем флажок о регистрации полученных значений
-		if (adc < 3000)
+		if (adc < WaterThreshold)
 		{
-			AlarmActive = true; // Включить тревогу
-		}
+			if (osEventFlagsGet(EventAlarmRunHandle) != ALARMMODESET)
+			{
+				osEventFlagsSet(EventAlarmRunHandle, ALARMMODESET); // Выставляем флаг тревоги
+			} // Если флаг тревоги не установлен
+		} // Если значение с АЦП миньше контрольного
 		else
 		{
-			AlarmActive = false; // Включить тревогу
-		}
-		HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adc, 2); // Запуск расчета АЦП
-	} // Если АЦП выдал значение
-
+			if (osEventFlagsGet(EventAlarmRunHandle) == ALARMMODESET)
+			{
+				osEventFlagsClear(EventAlarmRunHandle, ALARMMODESET); // Снимаем флаг тревоги
+			} // Если флаг тревоги установлен
+		} // Если значение с АЦП больше контрольного
+		adcOLD = adc;
+	} // Если значение с АЦП изменилось
+	HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&adc, 2); // Запуск расчета АЦП
 }

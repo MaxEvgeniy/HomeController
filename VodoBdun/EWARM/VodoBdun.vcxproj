@@ -45,6 +45,14 @@
       <AdditionalIncludeDirectories>..\Inc;..\Drivers\STM32F1xx_HAL_Driver\Inc;..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy;..\Middlewares\Third_Party\FreeRTOS\Source\include;..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2;..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM3;..\Drivers\CMSIS\Device\ST\STM32F1xx\Include;..\Drivers\CMSIS\Include;C:\Program Files\IAR Systems\Embedded Workbench 9.0/arm/inc/c/aarch32;../../Сommon;../../Common;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>USE_HAL_DRIVER;STM32F103xB;;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions />
+      <CPlusPlusInlineSemantics>true</CPlusPlusInlineSemantics>
+      <SupportExceptions>true</SupportExceptions>
+      <SupportRTTI>true</SupportRTTI>
+      <InputLanguage>C</InputLanguage>
+      <RequireFunctionPrototypes>true</RequireFunctionPrototypes>
+      <VariableLengthArrays>true</VariableLengthArrays>
+      <IARCLibraryType>Normal</IARCLibraryType>
+      <Optimization>OH</Optimization>
     </ClCompile>
     <Link>
       <AdditionalLinkerInputs>;%(Link.AdditionalLinkerInputs)</AdditionalLinkerInputs>

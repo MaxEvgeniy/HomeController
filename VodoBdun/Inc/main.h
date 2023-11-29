@@ -59,8 +59,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Buzzer_Pin GPIO_PIN_0
-#define Buzzer_GPIO_Port GPIOA
 #define WaterSensor3_Pin GPIO_PIN_2
 #define WaterSensor3_GPIO_Port GPIOA
 #define LightAlarm_Pin GPIO_PIN_10

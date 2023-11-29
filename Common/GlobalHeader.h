@@ -1,14 +1,22 @@
 #ifndef GLOBALHEADER
 #define GLOBALHEADER
+#include "cmsis_os2.h"
+#include "stm32f1xx_hal.h"
+#include <stdbool.h>
+#include <stdint.h>
 
-#include "stdbool.h"
-#include "stdint.h"
+typedef struct
+{
+	uint16_t Frequency; // Требуемая частота звучания
+	uint16_t Prescaler; // Предделитель для расчета ШИМа таймера
+	uint16_t Period; // Период для расчета ШИМа таймера
+	uint16_t Pulse; // Заполнение. Громкость 100% при заполнении на 50%
+}Note; // Нота
 
-#define BUZZERALARM	1
+#define BUZZERALARM		1
+#define ALARMMODESET	2
 
 void SensorDrive(void); // Чтение датчиков
 void AlarmDrive(void); // Управление сиреной
 void BuzzerDrive(void); // Управление пъезодинамиком
-void SoundPlay(uint16_t nSound, uint8_t repeat, uint8_t pause); // Воспроизведение звука на пьезодинамике
-void SoundStop(void); // Остановить воспроизведение звука на пьезодинамике
 #endif
